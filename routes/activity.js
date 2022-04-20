@@ -43,8 +43,8 @@ exports.execute = async (req, res) => {
 
   logger.info(req.body);
 
-  const ID = process.env.AWS_ACCESS_KEY;
-  const SECRET = process.env.AWS_SECRETE_KEY;
+  const ID = process.env.S3_ACCESS_KEY;
+  const SECRET = process.env.S3_SECRETE_KEY;
 
   
   // The name of the bucket that you have created
