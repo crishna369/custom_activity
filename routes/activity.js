@@ -42,6 +42,10 @@ exports.execute = async (req, res) => {
   // Enter copied or downloaded access ID and secret key here
 
   logger.info(req.body);
+
+  const ID = process.env.AWS_ACCESS_KEY;
+  const SECRET = process.env.AWS_SECRETE_KEY;
+
   
   // The name of the bucket that you have created
   const BUCKET_NAME = 'sfdc-widget';
