@@ -91,7 +91,7 @@ exports.execute = async (req, res) => {
 };
 
 try {
-  s3download
+  s3download()
     .then(content => {
       console.log("Old content is ",content);
       const id = Uuidv1();
