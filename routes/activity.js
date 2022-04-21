@@ -70,7 +70,7 @@ exports.execute = async (req, res) => {
                     reject(err);
                 } else {
                     console.log("Successfully dowloaded data from  bucket");
-                    resolve(data);
+                    resolve(data.Body.toString('utf-8'));
                 }
             });
         });
