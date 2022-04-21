@@ -14,7 +14,7 @@ exports.execute = async (req, res) => {
   // decode data
    const requestData = JWT(req.body);
 
-  // logger.info(data);
+  // console.log(data);
 
   // try {
   //   const id = Uuidv1();
@@ -81,7 +81,7 @@ exports.execute = async (req, res) => {
     
     // Uploading files to the bucket
     params['Body'] = data;
-    logger.info("Final content is ",data);
+    console.log("Final content is ",data);
     s3.upload(params, function(err, data) {
         if (err) {
             throw err;
@@ -93,7 +93,7 @@ exports.execute = async (req, res) => {
 try {
   s3download
     .then(content => {
-      logger.info("Old content is ",content);
+      console.log("Old content is ",content);
       const id = Uuidv1();
 
       const newContent = "\r\n"+
@@ -103,7 +103,7 @@ try {
       "Suggestion_and_Insight: "+requestData.inArguments[0].Text+"\r\n"+
       "Product: "+requestData.inArguments[0].DropdownOptions1+"\r\n";
       
-      logger.info("New content is ",newContent);
+      console.log("New content is ",newContent);
     
       let finalContent = content+newContent
       uploadFile(finalContent)
