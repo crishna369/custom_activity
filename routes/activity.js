@@ -109,7 +109,7 @@ try {
       uploadFile(finalContent)
     })
     .catch(err => {
-      logger.error(error);
+      logger.error(err);
     })
 }catch (error) {
     logger.error(error);
