@@ -12,7 +12,6 @@ const AWS = require('aws-sdk');
  */
 exports.execute = async (req, res) => {
   // decode data
-  console.log("In execute")
    const requestData = JWT(req.body);
 
   // logger.info(data);
@@ -42,7 +41,6 @@ exports.execute = async (req, res) => {
   // });
   // Enter copied or downloaded access ID and secret key here
 
-  logger.info(req.body);
 
   const ID = process.env.S3_ACCESS_KEY;
   const SECRET = process.env.S3_SECRETE_KEY;
@@ -83,6 +81,7 @@ exports.execute = async (req, res) => {
     
     // Uploading files to the bucket
     params['Body'] = data;
+    logger.info("Final content is ",data);
     s3.upload(params, function(err, data) {
         if (err) {
             throw err;
@@ -94,7 +93,7 @@ exports.execute = async (req, res) => {
 try {
   s3download
     .then(content => {
-      logger.error(content);
+      logger.info("Old content is ",content);
       const id = Uuidv1();
 
       const newContent = "\r\n"+
@@ -103,8 +102,8 @@ try {
       "Dse_Config: "+requestData.inArguments[0].DropdownOptions+"\r\n"+
       "Suggestion_and_Insight: "+requestData.inArguments[0].Text+"\r\n"+
       "Product: "+requestData.inArguments[0].DropdownOptions1+"\r\n";
-
-      console.log("Component data",newContent)
+      
+      logger.info("New content is ",newContent);
     
       let finalContent = content+newContent
       uploadFile(finalContent)
