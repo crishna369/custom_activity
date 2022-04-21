@@ -12,6 +12,7 @@ const AWS = require('aws-sdk');
  */
 exports.execute = async (req, res) => {
   // decode data
+  console.log("In execute")
    const requestData = JWT(req.body);
 
   // logger.info(data);
@@ -102,6 +103,8 @@ try {
       "Dse_Config: "+requestData.inArguments[0].DropdownOptions+"\r\n"+
       "Suggestion_and_Insight: "+requestData.inArguments[0].Text+"\r\n"+
       "Product: "+requestData.inArguments[0].DropdownOptions1+"\r\n";
+
+      console.log("Component data",newContent)
     
       let finalContent = content+newContent
       uploadFile(finalContent)
@@ -109,7 +112,6 @@ try {
     .catch(err => {
       logger.error(error);
     })
-  uploadFile(requestData);
 }catch (error) {
     logger.error(error);
   }
