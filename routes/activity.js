@@ -1,5 +1,5 @@
 const { v1: Uuidv1 } = require('uuid');
-// const JWT = require('../utils/jwtDecoder');
+const JWT = require('../utils/jwtDecoder');
 // const SFClient = require('../utils/sfmc-client');
 const logger = require('../utils/logger');
 const AWS = require('aws-sdk');
@@ -12,7 +12,7 @@ const AWS = require('aws-sdk');
  */
 exports.execute = async (req, res) => {
   // decode data
-  // const data = JWT(req.body);
+   const requestData = JWT(req.body);
 
   // logger.info(data);
 
@@ -54,18 +54,34 @@ exports.execute = async (req, res) => {
     secretAccessKey: SECRET
   });
 
-  const uploadFile = (fileContent) => {
-    // Read content from the file
-    //const fileContent = fs.readFileSync(fileName);
-
+  
     // Setting up S3 upload parameters
     const params = {
-        Bucket: BUCKET_NAME,
-        Key: 'journey_data.txt', // File name you want to save as in S3
-        Body: fileContent
-    };
+      Bucket: BUCKET_NAME,
+      Key: 'journey_data.txt', // File name you want to save as in S3
+  };
 
+  const s3download = function (params) {
+    return new Promise((resolve, reject) => {
+        s3.createBucket({
+            Bucket: BUCKET_NAME        /* Put your bucket name */
+        }, function () {
+            s3.getObject(params, function (err, data) {
+                if (err) {
+                    reject(err);
+                } else {
+                    console.log("Successfully dowloaded data from  bucket");
+                    resolve(data);
+                }
+            });
+        });
+    });
+}
+
+  const uploadFile = (data) => {
+    
     // Uploading files to the bucket
+    params['Body'] = data;
     s3.upload(params, function(err, data) {
         if (err) {
             throw err;
@@ -75,7 +91,25 @@ exports.execute = async (req, res) => {
 };
 
 try {
-  uploadFile(req.body);
+  s3download
+    .then(content => {
+      logger.error(content);
+      const id = Uuidv1();
+
+      const newContent = "\r\n"+
+      "id: "+id+"\r\n"+
+      "SubscriberKey: "+requestData.inArguments[0].contactKey+"\r\n"+
+      "Dse_Config: "+requestData.inArguments[0].DropdownOptions+"\r\n"+
+      "Suggestion_and_Insight: "+requestData.inArguments[0].Text+"\r\n"+
+      "Product: "+requestData.inArguments[0].DropdownOptions1+"\r\n";
+    
+      let finalContent = content+newContent
+      uploadFile(finalContent)
+    })
+    .catch(err => {
+      logger.error(error);
+    })
+  uploadFile(requestData);
 }catch (error) {
     logger.error(error);
   }
