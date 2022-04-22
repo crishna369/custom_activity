@@ -25,7 +25,7 @@ exports.ui = (req, res) => {
   
   const UI_CONFIG_URL = process.env.UI_CONFIG_URL;
 
-  https.get(UI_CONFIG_URL,(res) => {
+  https.get({url:UI_CONFIG_URL,json: true},(res) => {
     let body = "";
 
     res.on("data", (chunk) => {
@@ -34,8 +34,8 @@ exports.ui = (req, res) => {
 
     res.on("end", () => {
         try {
-            console.log('S3 response is ',body);
-            let uiConfig = JSON.parse(body);
+            console.log('S3 response is ',body.replace(/\r?\n|\r/g, " "));
+            let uiConfig = JSON.parse(body.replace(/\r?\n|\r/g, " "));
             // do something with JSON
             //console.log('UI json is ',JSON.stringify(uiConfig));
 
