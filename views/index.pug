@@ -20,9 +20,9 @@ block content
         .slds-form-element__control
         case ele.type
           when 'textbox'
-            input#{ele.id}.slds-input.js-activity-setting(required='', placeholder='', name=ele.name)  
+            input#Text.slds-input.js-activity-setting(required='', placeholder='', name=ele.name)  
           when 'dropdown'
-            select#{ele.id}.slds-select.js-activity-setting(name=ele.name)
+            select#DropdownOptions.slds-select.js-activity-setting(name=ele.name)
                 each dropdownOption in ele.options
                   option(value=dropdownOption.value)= dropdownOption.name
           default
