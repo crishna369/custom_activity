@@ -16,7 +16,7 @@ block content
     .slds-card__body.slds-card__body_inner
     form.js-settings-form
       each ele in uiConfig
-        label.slds-form-element__label(for=ele.id) ele.name
+        label.slds-form-element__label(for=ele.id) #{ele.name}
         .slds-form-element__control
         case ele.type
           when 'textbox'
