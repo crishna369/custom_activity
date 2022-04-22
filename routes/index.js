@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const https = require('https');
 
 /**
  * Render Config
@@ -21,36 +22,97 @@ exports.config = (req, res) => {
  * @param res
  */
 exports.ui = (req, res) => {
-  res.render('index', {
-    title: 'Custom Activity',
-    dropdownOptions: [
-      {
-        name: 'ABC',
-        value: 'ABC',
-      },
-      {
-        name: 'DEF',
-        value: 'DEF',
-      },
-      {
-        name: 'GHI',
-        value: 'GHI',
-      },
-    ],
-    dropdownOptions1: [
-      {
-        name: 'ABC',
-        value: 'ABC',
-      },
-      {
-        name: 'DEF',
-        value: 'DEF',
-      },
-      {
-        name: 'GHI',
-        value: 'GHI',
-      },
-    ],
-   
+  
+  const UI_CONFIG_URL = process.env.UI_CONFIG_URL;
+
+  https.get(UI_CONFIG_URL,(res) => {
+    let body = "";
+
+    res.on("data", (chunk) => {
+        body += chunk;
+    });
+
+    res.on("end", () => {
+        try {
+            let uiConfig = JSON.parse(body);
+            // do something with JSON
+            console.log('UI json is ',JSON.stringify(uiConfig));
+
+            res.render('index', {
+              title: 'Custom Activity',
+              uiConfig: uiConfig,
+              dropdownOptions: [
+                {
+                  name: 'ABC',
+                  value: 'ABC',
+                },
+                {
+                  name: 'DEF',
+                  value: 'DEF',
+                },
+                {
+                  name: 'GHI',
+                  value: 'GHI',
+                },
+              ],
+              dropdownOptions1: [
+                {
+                  name: 'ABC',
+                  value: 'ABC',
+                },
+                {
+                  name: 'DEF',
+                  value: 'DEF',
+                },
+                {
+                  name: 'GHI',
+                  value: 'GHI',
+                },
+              ],
+             
+            });
+
+        } catch (error) {
+            console.error(error.message);
+        };
+    });
+
+  }).on("error", (error) => {
+      console.error(error.message);
   });
+  
+
+
+  // res.render('index', {
+  //   title: 'Custom Activity',
+  //   dropdownOptions: [
+  //     {
+  //       name: 'ABC',
+  //       value: 'ABC',
+  //     },
+  //     {
+  //       name: 'DEF',
+  //       value: 'DEF',
+  //     },
+  //     {
+  //       name: 'GHI',
+  //       value: 'GHI',
+  //     },
+  //   ],
+  //   dropdownOptions1: [
+  //     {
+  //       name: 'ABC',
+  //       value: 'ABC',
+  //     },
+  //     {
+  //       name: 'DEF',
+  //       value: 'DEF',
+  //     },
+  //     {
+  //       name: 'GHI',
+  //       value: 'GHI',
+  //     },
+  //   ],
+   
+  // });
 };
