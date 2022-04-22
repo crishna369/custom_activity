@@ -25,16 +25,15 @@ exports.ui = (req, res) => {
   
   const UI_CONFIG_URL = process.env.UI_CONFIG_URL;
 
-  https.get(UI_CONFIG_URL,(res) => {
+  https.get(UI_CONFIG_URL,(response) => {
     let body = "";
 
-    res.on("data", (chunk) => {
+    response.on("data", (chunk) => {
         body += chunk;
     });
 
-    res.on("end", () => {
+    response.on("end", () => {
         try {
-            console.log('S3 response is ',body);
             let uiConfig = JSON.parse(body);
             // do something with JSON
             //console.log('UI json is ',JSON.stringify(uiConfig));
