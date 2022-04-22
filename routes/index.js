@@ -35,7 +35,7 @@ exports.ui = (req, res) => {
     res.on("end", () => {
         try {
             console.log('S3 response is ',body.replace(/\r?\n|\r/g, " "));
-            let uiConfig = JSON.parse(body.replace(/\r?\n|\r/g, " "));
+            let uiConfig = JSON.parse(body);
             // do something with JSON
             //console.log('UI json is ',JSON.stringify(uiConfig));
 
