@@ -37,7 +37,7 @@ exports.ui = (req, res) => {
             console.log('S3 response is ',body);
             let uiConfig = JSON.parse(body);
             // do something with JSON
-            console.log('UI json is ',JSON.stringify(uiConfig));
+            //console.log('UI json is ',JSON.stringify(uiConfig));
 
             res.render('index', {
               title: 'Custom Activity',
