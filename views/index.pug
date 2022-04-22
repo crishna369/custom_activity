@@ -28,26 +28,26 @@ block content
           default
             p No allowed form field type found in UI config                                             
 
-        .slds-form-element
-          label.slds-form-element__label(for="DropdownOptions") DSE Config
-          .slds-form-element__control
-            .slds-select_container
-              select#DropdownOptions.slds-select.js-activity-setting(name='dropdownOptions')
-                each dropdownOption in dropdownOptions
-                  option(value=dropdownOption.value)= dropdownOption.name
+        //- .slds-form-element
+        //-   label.slds-form-element__label(for="DropdownOptions") DSE Config
+        //-   .slds-form-element__control
+        //-     .slds-select_container
+        //-       select#DropdownOptions.slds-select.js-activity-setting(name='dropdownOptions')
+        //-         each dropdownOption in dropdownOptions
+        //-           option(value=dropdownOption.value)= dropdownOption.name
               
-          label.slds-form-element__label.slds-p-top_medium(for='Text')
-            abbr.slds-required(title='required')
-            | Suggestion/Insight *
-          .slds-form-element__control
-            input#Text.slds-input.js-activity-setting(required='', placeholder='', name='text')    
+        //-   label.slds-form-element__label.slds-p-top_medium(for='Text')
+        //-     abbr.slds-required(title='required')
+        //-     | Suggestion/Insight *
+        //-   .slds-form-element__control
+        //-     input#Text.slds-input.js-activity-setting(required='', placeholder='', name='text')    
             
-          label.slds-form-element__label(for="DropdownOptions1") Product
-          .slds-form-element__control
-            .slds-select_container
-              select#DropdownOptions1.slds-select.js-activity-setting(name='dropdownOptions1')
-                each dropdownOption1 in dropdownOptions1
-                  option(value=dropdownOption1.value)= dropdownOption1.name
+        //-   label.slds-form-element__label(for="DropdownOptions1") Product
+        //-   .slds-form-element__control
+        //-     .slds-select_container
+        //-       select#DropdownOptions1.slds-select.js-activity-setting(name='dropdownOptions1')
+        //-         each dropdownOption1 in dropdownOptions1
+        //-           option(value=dropdownOption1.value)= dropdownOption1.name
             
 
     footer.slds-card__footer
