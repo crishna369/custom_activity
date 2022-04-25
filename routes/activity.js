@@ -96,11 +96,10 @@ try {
       const id = Uuidv1();
       if(process.env.UI_CONFIG_DATA){
         let uiConfigData = JSON.parse(process.env.UI_CONFIG_DATA);
-        console.log('uiConfigData  is ',uiConfigData);
-        console.log('uiConfigData lenght is ',uiConfigData.length);
         const newContent = "\r\n"+ "id: "+id+"\r\n";
         
         for(let i=0; i<uiConfigData.length;i++){
+          console.log("input data is ",uiConfigData[i].name);
           newContent += uiConfigData[i].name+": "+requestData.inArguments[0][uiConfigData[i].id]+"\r\n";
         }
       }
