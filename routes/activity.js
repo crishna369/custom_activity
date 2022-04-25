@@ -102,7 +102,7 @@ try {
             newContent += ""+uiConfigData[i].name+": "+requestData.inArguments[0][uiConfigData[i].id]+"\r\n";
           } 
         let finalContent = content+newContent
-        await uploadFile(finalContent);
+        uploadFile(finalContent);
         res.status(200).send({
           status: 'ok',
         });
