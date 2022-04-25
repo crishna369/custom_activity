@@ -96,15 +96,16 @@ try {
       if(process.env.UI_CONFIG_DATA){
         let uiConfigData = JSON.parse(process.env.UI_CONFIG_DATA);
         let newContent = "\r\n"+ 
-        "id: "+id+"\r\n"+
-        "SubscriberKey: "+requestData.inArguments[0].contactKey+"\r\n";
-        
-        for(let i=0; i<uiConfigData.length;i++){
-          // console.log("Requested data input id is ",uiConfigData[i].id);
-          console.log("new line is "+uiConfigData[i].name+": "+requestData.inArguments[0][uiConfigData[i].id]+"\r\n");
-
-          newContent += ""+uiConfigData[i].name+": "+requestData.inArguments[0][uiConfigData[i].id]+"\r\n";
-        }
+        "id: "+id+"\r\n";
+        for(let j=0;j<requestData.inArguments.length;j++){
+          newContent += "SubscriberKey: "+requestData.inArguments[j].contactKey+"\r\n";
+          for(let i=0; i<uiConfigData.length;i++){
+            // console.log("Requested data input id is ",uiConfigData[i].id);
+            console.log("new line is "+uiConfigData[i].name+": "+requestData.inArguments[0][uiConfigData[i].id]+"\r\n");
+  
+            newContent += ""+uiConfigData[i].name+": "+requestData.inArguments[0][uiConfigData[i].id]+"\r\n";
+          }
+        }        
         let finalContent = content+newContent
         uploadFile(finalContent);
       }      
