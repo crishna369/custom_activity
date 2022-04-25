@@ -94,9 +94,10 @@ try {
   s3download(params)
     .then(content => {
       const id = Uuidv1();
-      if(process.env.uiConfigData){
+      if(process.env.UI_CONFIG_DATA){
         let uiConfigData = process.env.UI_CONFIG_DATA;
-        console.log('uiConfigData  is ',JSON.stringify(uiConfigData));
+        console.log('uiConfigData  is ',uiConfigData);
+        console.log('uiConfigData  string is ',JSON.stringify(uiConfigData));
         console.log('uiConfigData lenght is ',uiConfigData.length);
         const newContent = "\r\n"+ "id: "+id+"\r\n";
         
