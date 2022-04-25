@@ -96,7 +96,7 @@ try {
       const id = Uuidv1();
       if(process.env.UI_CONFIG_DATA){
         let uiConfigData = JSON.parse(process.env.UI_CONFIG_DATA);
-        const newContent = "\r\n"+ "id: "+id+"\r\n";
+        let newContent = "\r\n"+ "id: "+id+"\r\n";
         
         for(let i=0; i<uiConfigData.length;i++){
           // console.log("Requested data input id is ",uiConfigData[i].id);
