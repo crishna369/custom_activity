@@ -99,20 +99,14 @@ try {
         const newContent = "\r\n"+ "id: "+id+"\r\n";
         
         for(let i=0; i<uiConfigData.length;i++){
-          console.log("input data is ",requestData.inArguments[0]['custom_dse_Config1']);
-          console.log("input id is ",requestData.inArguments[0][uiConfigData[i].id]);
           newContent += uiConfigData[i].name+": "+requestData.inArguments[0][uiConfigData[i].id]+"\r\n";
         }
-      }
-      // "SubscriberKey: "+requestData.inArguments[0].contactKey+"\r\n"+
-      // "Dse_Config: "+requestData.inArguments[0].DropdownOptions+"\r\n"+
-      // "Suggestion_and_Insight: "+requestData.inArguments[0].Text+"\r\n"+
-      // "Product: "+requestData.inArguments[0].DropdownOptions1+"\r\n";
-      
-      console.log("New content is ",newContent);
+        console.log("New content is ",newContent);
     
-      let finalContent = content+newContent
-      uploadFile(finalContent)
+        let finalContent = content+newContent
+        uploadFile(finalContent);
+      }      
+      
     })
     .catch(err => {
       logger.error(err);
