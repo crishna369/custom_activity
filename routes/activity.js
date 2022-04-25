@@ -99,9 +99,11 @@ try {
         const newContent = "\r\n"+ "id: "+id+"\r\n";
         
         for(let i=0; i<uiConfigData.length;i++){
+          console.log("Requested data input is ",uiConfigData[i].id);
+          console.log("Requested data input is ",requestData.inArguments[0][uiConfigData[i].id]);
+
           newContent += uiConfigData[i].name+": "+requestData.inArguments[0][uiConfigData[i].id]+"\r\n";
         }
-        console.log("New content is ",newContent);
     
         let finalContent = content+newContent
         uploadFile(finalContent);
