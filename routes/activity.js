@@ -93,11 +93,10 @@ exports.execute = async (req, res) => {
 try {
   s3download(params)
     .then(content => {
-      console.log("Old content is ",content);
       const id = Uuidv1();
       if(process.env.uiConfigData){
         let uiConfigData = process.env.uiConfigData
-        console.log('uiConfigData lenght is ',uiConfigData.length)
+        console.log('uiConfigData lenght is ',JSON.stringify(uiConfigData))
         const newContent = "\r\n"+ "id: "+id+"\r\n";
         
         for(let i=0; i<uiConfigData.length;i++){
