@@ -101,9 +101,9 @@ try {
           newContent += "SubscriberKey: "+requestData.inArguments[j].contactKey+"\r\n";
           for(let i=0; i<uiConfigData.length;i++){
             // console.log("Requested data input id is ",uiConfigData[i].id);
-            console.log("new line is "+uiConfigData[i].name+": "+requestData.inArguments[0][uiConfigData[i].id]+"\r\n");
+            console.log("new line is "+uiConfigData[i].name+": "+requestData.inArguments[j][uiConfigData[i].id]+"\r\n");
   
-            newContent += ""+uiConfigData[i].name+": "+requestData.inArguments[0][uiConfigData[i].id]+"\r\n";
+            newContent += ""+uiConfigData[i].name+": "+requestData.inArguments[j][uiConfigData[i].id]+"\r\n";
           }
         }        
         let finalContent = content+newContent
