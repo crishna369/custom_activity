@@ -14,8 +14,6 @@ exports.execute = async (req, res) => {
   // decode data
    const requestData = JWT(req.body);
 
-   console.log("request data ",requestData);
-
   // try {
   //   const id = Uuidv1();
 
@@ -69,7 +67,6 @@ exports.execute = async (req, res) => {
                 if (err) {
                     reject(err);
                 } else {
-                    console.log("Successfully dowloaded data from  bucket");
                     resolve(data.Body.toString('utf-8'));
                 }
             });
@@ -85,7 +82,6 @@ exports.execute = async (req, res) => {
         if (err) {
             throw err;
         }
-        console.log(`File uploaded successfully. ${data.Location}`);
     }).promise();
 };
 
@@ -103,13 +99,15 @@ try {
           } 
         let finalContent = content+newContent
         uploadFile(finalContent);
+        console.log("Successfully uploaded data to  bucket for ",requestData.inArguments[0].contactKey);
       }          
     })
     .catch(err => {
       console.log(err);
       logger.error(err);
-    })
-    
+    });
+
+    console.log("Request completed");    
     res.status(200).send({
       status: 'ok',
     });
