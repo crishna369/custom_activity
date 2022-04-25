@@ -14,7 +14,7 @@ exports.execute = async (req, res) => {
   // decode data
    const requestData = JWT(req.body);
 
-  // console.log(data);
+   console.log("request data ",data);
 
   // try {
   //   const id = Uuidv1();
