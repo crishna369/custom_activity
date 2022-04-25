@@ -78,6 +78,7 @@ exports.execute = async (req, res) => {
     
     // Uploading files to the bucket
     params['Body'] = data;
+    console.log("Data to upload: ",params);
     await s3.upload(params, function(err, data) {
         if (err) {
             throw err;
@@ -97,17 +98,15 @@ try {
           for(let i=0; i<uiConfigData.length;i++){
             newContent += ""+uiConfigData[i].name+": "+requestData.inArguments[0][uiConfigData[i].id]+"\r\n";
           } 
-        let finalContent = content+newContent
+        let finalContent = content+newContent;
         uploadFile(finalContent);
-        console.log("Successfully uploaded data to  bucket for ",requestData.inArguments[0].contactKey);
       }          
     })
     .catch(err => {
       console.log(err);
       logger.error(err);
     });
-
-    console.log("Request completed");    
+   
     res.status(200).send({
       status: 'ok',
     });
