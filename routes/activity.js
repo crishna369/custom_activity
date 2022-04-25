@@ -4,6 +4,56 @@ const JWT = require('../utils/jwtDecoder');
 const logger = require('../utils/logger');
 const AWS = require('aws-sdk');
 
+
+const ID = process.env.S3_ACCESS_KEY;
+const SECRET = process.env.S3_SECRETE_KEY;
+
+
+// The name of the bucket that you have created
+const BUCKET_NAME = 'sfdc-widget';
+const s3 = new AWS.S3({
+  accessKeyId: ID,
+  secretAccessKey: SECRET
+});
+
+
+  // Setting up S3 upload parameters
+  const params = {
+    Bucket: BUCKET_NAME,
+    Key: 'journey_data.txt', // File name you want to save as in S3
+};
+
+
+const s3download = function (params) {
+  return new Promise((resolve, reject) => {
+      s3.createBucket({
+          Bucket: BUCKET_NAME        /* Put your bucket name */
+      }, function () {
+          s3.getObject(params, function (err, data) {
+              if (err) {
+                  reject(err);
+              } else {
+                  console.log("Successfully dowloaded data from  bucket");
+                  resolve(data.Body.toString('utf-8'));
+              }
+          });
+      });
+  });
+}
+
+const uploadFile = async (data) => {
+    
+  // Uploading files to the bucket
+  params['Body'] = data;
+  await s3.upload(params, function(err, data) {
+      if (err) {
+          throw err;
+      }
+      console.log(`File uploaded successfully. ${data.Location}`);
+  }).promise();
+};
+
+
 /**
  * The Journey Builder calls this method for each contact processed by the journey.
  * @param req
@@ -41,54 +91,6 @@ exports.execute = async (req, res) => {
   // });
   // Enter copied or downloaded access ID and secret key here
 
-
-  const ID = process.env.S3_ACCESS_KEY;
-  const SECRET = process.env.S3_SECRETE_KEY;
-
-  
-  // The name of the bucket that you have created
-  const BUCKET_NAME = 'sfdc-widget';
-  const s3 = new AWS.S3({
-    accessKeyId: ID,
-    secretAccessKey: SECRET
-  });
-
-  
-    // Setting up S3 upload parameters
-    const params = {
-      Bucket: BUCKET_NAME,
-      Key: 'journey_data.txt', // File name you want to save as in S3
-  };
-
-  const s3download = function (params) {
-    return new Promise((resolve, reject) => {
-        s3.createBucket({
-            Bucket: BUCKET_NAME        /* Put your bucket name */
-        }, function () {
-            s3.getObject(params, function (err, data) {
-                if (err) {
-                    reject(err);
-                } else {
-                    console.log("Successfully dowloaded data from  bucket");
-                    resolve(data.Body.toString('utf-8'));
-                }
-            });
-        });
-    });
-}
-
-  const uploadFile = (data) => {
-    
-    // Uploading files to the bucket
-    params['Body'] = data;
-    s3.upload(params, function(err, data) {
-        if (err) {
-            throw err;
-        }
-        console.log(`File uploaded successfully. ${data.Location}`);
-    });
-};
-
 try {
   s3download(params)
     .then(content => {
@@ -97,31 +99,32 @@ try {
         let uiConfigData = JSON.parse(process.env.UI_CONFIG_DATA);
         let newContent = "\r\n"+ 
         "id: "+id+"\r\n";
-        console.log("request data length is ",requestData.inArguments.length)
-        for(let j=0;j<requestData.inArguments.length;j++){
-          newContent += "SubscriberKey: "+requestData.inArguments[j].contactKey+"\r\n";
+        newContent += "SubscriberKey: "+requestData.inArguments[0].contactKey+"\r\n";
           for(let i=0; i<uiConfigData.length;i++){
-            // console.log("Requested data input id is ",uiConfigData[i].id);
-            console.log("new line is "+uiConfigData[i].name+": "+requestData.inArguments[j][uiConfigData[i].id]+"\r\n");
-  
-            newContent += ""+uiConfigData[i].name+": "+requestData.inArguments[j][uiConfigData[i].id]+"\r\n";
-          }
-        }        
+            newContent += ""+uiConfigData[i].name+": "+requestData.inArguments[0][uiConfigData[i].id]+"\r\n";
+          } 
         let finalContent = content+newContent
-        uploadFile(finalContent);
+        await uploadFile(finalContent);
+        
+        res.status(200).send({
+          status: 'ok',
+        });
       }      
       
     })
     .catch(err => {
       console.log(err);
       logger.error(err);
+      res.status(500).send({
+        status: 'Internal server error',
+      });
     })
 }catch (error) {
     logger.error(error);
+    res.status(500).send({
+      status: 'Internal server error',
+    });
   }
-  res.status(200).send({
-    status: 'ok',
-  });
 };
 
 /**
