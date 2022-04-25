@@ -95,9 +95,8 @@ try {
     .then(content => {
       const id = Uuidv1();
       if(process.env.UI_CONFIG_DATA){
-        let uiConfigData = process.env.UI_CONFIG_DATA;
+        let uiConfigData = JSON.parse(process.env.UI_CONFIG_DATA);
         console.log('uiConfigData  is ',uiConfigData);
-        console.log('uiConfigData  string is ',JSON.stringify(uiConfigData));
         console.log('uiConfigData lenght is ',uiConfigData.length);
         const newContent = "\r\n"+ "id: "+id+"\r\n";
         
