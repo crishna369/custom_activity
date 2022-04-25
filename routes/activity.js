@@ -99,7 +99,8 @@ try {
         const newContent = "\r\n"+ "id: "+id+"\r\n";
         
         for(let i=0; i<uiConfigData.length;i++){
-          console.log("input data is ",uiConfigData[i].name);
+          console.log("input data is ",requestData.inArguments[0]);
+          console.log("input id is ",uiConfigData[i].id);
           newContent += uiConfigData[i].name+": "+requestData.inArguments[0][uiConfigData[i].id]+"\r\n";
         }
       }
