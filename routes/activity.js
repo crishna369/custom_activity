@@ -105,7 +105,6 @@ try {
 
           newContent += ""+uiConfigData[i].name+": "+requestData.inArguments[0][uiConfigData[i].id]+"\r\n";
         }
-        console.log("new content is ", newContent);
         let finalContent = content+newContent
         uploadFile(finalContent);
       }      

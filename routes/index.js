@@ -39,36 +39,7 @@ exports.ui = (req, res) => {
             process.env['UI_CONFIG_DATA'] = JSON.stringify(uiConfig);
             res.render('index', {
               title: 'Custom Activity',
-              uiConfig: uiConfig,
-              dropdownOptions: [
-                {
-                  name: 'ABC',
-                  value: 'ABC',
-                },
-                {
-                  name: 'DEF',
-                  value: 'DEF',
-                },
-                {
-                  name: 'GHI',
-                  value: 'GHI',
-                },
-              ],
-              dropdownOptions1: [
-                {
-                  name: 'ABC',
-                  value: 'ABC',
-                },
-                {
-                  name: 'DEF',
-                  value: 'DEF',
-                },
-                {
-                  name: 'GHI',
-                  value: 'GHI',
-                },
-              ],
-             
+              uiConfig: uiConfig             
             });
 
         } catch (error) {
