@@ -97,6 +97,7 @@ try {
         let uiConfigData = JSON.parse(process.env.UI_CONFIG_DATA);
         let newContent = "\r\n"+ 
         "id: "+id+"\r\n";
+        console.log("request data length is ",requestData.inArguments.length)
         for(let j=0;j<requestData.inArguments.length;j++){
           newContent += "SubscriberKey: "+requestData.inArguments[j].contactKey+"\r\n";
           for(let i=0; i<uiConfigData.length;i++){
