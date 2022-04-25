@@ -90,7 +90,7 @@ exports.execute = async (req, res) => {
 };
 
 try {
-  s3download(params)
+  await s3download(params)
     .then(content => {
       const id = Uuidv1();
       if(process.env.UI_CONFIG_DATA){
@@ -103,16 +103,16 @@ try {
           } 
         let finalContent = content+newContent
         uploadFile(finalContent);
-        res.status(200).send({
-          status: 'ok',
-        });
-      }      
-      
+      }          
     })
     .catch(err => {
       console.log(err);
       logger.error(err);
     })
+    
+    res.status(200).send({
+      status: 'ok',
+    });
 }catch (error) {
     logger.error(error);
   }
