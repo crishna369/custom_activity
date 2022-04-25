@@ -81,7 +81,6 @@ exports.execute = async (req, res) => {
     
     // Uploading files to the bucket
     params['Body'] = data;
-    console.log("Final content is ",data);
     s3.upload(params, function(err, data) {
         if (err) {
             throw err;
@@ -96,7 +95,9 @@ try {
       const id = Uuidv1();
       if(process.env.UI_CONFIG_DATA){
         let uiConfigData = JSON.parse(process.env.UI_CONFIG_DATA);
-        let newContent = "\r\n"+ "id: "+id+"\r\n";
+        let newContent = "\r\n"+ 
+        "id: "+id+"\r\n"+
+        "SubscriberKey: "+requestData.inArguments[0].contactKey+"\r\n";
         
         for(let i=0; i<uiConfigData.length;i++){
           // console.log("Requested data input id is ",uiConfigData[i].id);
