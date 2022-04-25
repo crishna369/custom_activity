@@ -95,13 +95,19 @@ try {
     .then(content => {
       console.log("Old content is ",content);
       const id = Uuidv1();
-
-      const newContent = "\r\n"+
-      "id: "+id+"\r\n"+
-      "SubscriberKey: "+requestData.inArguments[0].contactKey+"\r\n"+
-      "Dse_Config: "+requestData.inArguments[0].DropdownOptions+"\r\n"+
-      "Suggestion_and_Insight: "+requestData.inArguments[0].Text+"\r\n"+
-      "Product: "+requestData.inArguments[0].DropdownOptions1+"\r\n";
+      if(process.env.uiConfigData){
+        let uiConfigData = process.env.uiConfigData
+        console.log('uiConfigData lenght is ',uiConfigData.length)
+        const newContent = "\r\n"+ "id: "+id+"\r\n";
+        
+        for(let i=0; i<uiConfigData.length;i++){
+          newContent += uiConfigData[i].name+": "+requestData.inArguments[0][uiConfigData[i].id]+"\r\n";
+        }
+      }
+      // "SubscriberKey: "+requestData.inArguments[0].contactKey+"\r\n"+
+      // "Dse_Config: "+requestData.inArguments[0].DropdownOptions+"\r\n"+
+      // "Suggestion_and_Insight: "+requestData.inArguments[0].Text+"\r\n"+
+      // "Product: "+requestData.inArguments[0].DropdownOptions1+"\r\n";
       
       console.log("New content is ",newContent);
     
