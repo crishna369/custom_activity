@@ -36,8 +36,8 @@ exports.ui = (req, res) => {
         try {
             let uiConfig = JSON.parse(body);
             // do something with JSON
-            process.env['UI_CONFIG_DATA'] = uiConfig;
-            console.log('UI_CONFIG_DATA is ',process.env.UI_CONFIG_DATA);
+            process.env['UI_CONFIG_DATA'] = JSON.stringify(uiConfig);
+            console.log('UI_CONFIG_DATA is ',JSON.parse(process.env.UI_CONFIG_DATA));
             res.render('index', {
               title: 'Custom Activity',
               uiConfig: uiConfig,
