@@ -96,6 +96,7 @@ exports.execute = async (req, res) => {
           "client_id": process.env.CRM_CLIENT_ID,
           "client_secret": process.env.CRM_CLIENT_SECRETE
         });
+        console.log("form data for token: ",postData)
         const options = {
           method: 'POST',
           headers: {
