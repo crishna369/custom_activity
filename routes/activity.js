@@ -106,11 +106,12 @@ exports.execute = async (req, res) => {
             'Content-Length': postData.length
           }
         };
-
+        console.log("In getAccessToken function")
         return new Promise((resolve, reject) => {
           const req = https.request(options, (res) => {
             if (res.statusCode < 200 || res.statusCode > 299) {
-              return reject(new Error(`HTTP status code ${res.statusCode}`))
+              console.log("Token call failed with: ", res.statusCode)
+              return reject(new Error("HTTP status code "+res.statusCode))
             }
             console.log('statusCode:', res.statusCode);
             console.log('headers:', res.headers);
@@ -124,6 +125,7 @@ exports.execute = async (req, res) => {
           });
 
           req.on('error', (err) => {
+            console.log("Token call failed: ",err)
             reject(err)
           });
 
@@ -189,6 +191,7 @@ exports.execute = async (req, res) => {
           });
         });
       } else {
+        console.log("No token found. Fetching token...");
         getAccessToken().then(tokenResp => {
           console.log('Token response is ', JSON.parse(tokenResp));
           process.env['CRM_ACCESS_TOKEN'] = JSON.parse(tokenResp)['access_token'];
