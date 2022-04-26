@@ -4,6 +4,7 @@ const JWT = require('../utils/jwtDecoder');
 const logger = require('../utils/logger');
 const AWS = require('aws-sdk');
 const https = require('https');
+const querystring = require('querystring');
 
 /**
  * The Journey Builder calls this method for each contact processed by the journey.
@@ -89,7 +90,7 @@ exports.execute = async (req, res) => {
     }
     else if (process.env.INTEGRATION_TYPE.toLowerCase() === 'crm') {
       const getAccessToken = function () {
-        const postData = JSON.stringify({
+        const postData = new URLSearchParams({
           "username": process.env.CRM_USERNAME,
           "password": process.env.CRM_PASSWORD,
           "grant_type": "password",
@@ -146,7 +147,7 @@ exports.execute = async (req, res) => {
           reqPayload[uiConfigData[i].id] = requestData.inArguments[0][uiConfigData[i].id];
         }
         console.log("Request payload for post is ",reqPayload)
-        const postData = JSON.stringify(reqPayload);
+        const postData = new URLSearchParams(reqPayload);
 
         const options = {
           method: 'POST',
