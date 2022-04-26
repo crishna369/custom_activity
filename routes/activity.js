@@ -97,18 +97,16 @@ exports.execute = async (req, res) => {
           "client_secret": process.env.CRM_CLIENT_SECRETE
         });
         const options = {
-          hostname: process.env.CRM_DOMAIN,
-          port: 443,
-          path: process.env.CRM_AUTH_ENDPOINT,
           method: 'POST',
           headers: {
             'Content-Type': 'multipart/form-data',
             'Content-Length': postData.length
           }
         };
+        const url = process.env.CRM_DOMAIN+"/"+process.env.CRM_AUTH_ENDPOINT;
         console.log("In getAccessToken function")
         return new Promise((resolve, reject) => {
-          const req = https.request(options, (res) => {
+          const req = https.request(url, options, (res) => {
             if (res.statusCode < 200 || res.statusCode > 299) {
               console.log("Token call failed with: ", res.statusCode)
               return reject(new Error("HTTP status code "+res.statusCode))
@@ -145,9 +143,6 @@ exports.execute = async (req, res) => {
         const postData = JSON.stringify(reqPayload);
 
         const options = {
-          hostname: process.env.CRM_DOMAIN,
-          port: 443,
-          path: process.env.CRM_RESOURCE_ENDPOINT,
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -155,8 +150,9 @@ exports.execute = async (req, res) => {
             'Authorization': 'Bearer ' + process.env.CRM_ACCESS_TOKEN
           }
         };
+        const url = process.env.CRM_DOMAIN+"/"+process.env.CRM_RESOURCE_ENDPOINT;
         return new Promise((resolve, reject) => {
-          const req = https.request(options, (res) => {
+          const req = https.request(url, options, (res) => {
             if (res.statusCode < 200 || res.statusCode > 299) {
               return reject(new Error(`HTTP status code ${res.statusCode}`))
             }
