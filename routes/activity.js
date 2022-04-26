@@ -106,18 +106,23 @@ exports.execute = async (req, res) => {
         const url = process.env.CRM_DOMAIN+"/"+process.env.CRM_AUTH_ENDPOINT;
         console.log("In getAccessToken function")
         return new Promise((resolve, reject) => {
-          const req = https.request(url, options, (res) => {
-            if (res.statusCode < 200 || res.statusCode > 299) {
-              console.log("Token call failed with: ", res.statusCode)
-              return reject(new Error("HTTP status code "+res.statusCode))
+          const req = https.request(url, options, (tokenResponse) => {
+            if (tokenResponse.statusCode < 200 || tokenResponse.statusCode > 299) {
+              console.log("Token call failed with: ", tokenResponse.statusCode)
+              return reject(new Error("HTTP status code "+tokenResponse.statusCode))
             }
-            console.log('statusCode:', res.statusCode);
-            console.log('headers:', res.headers);
+            console.log('statusCode:', tokenResponse.statusCode);
+            console.log('headers:', tokenResponse.headers);
 
             const body = []
-            res.on('data', (chunk) => body.push(chunk))
-            res.on('end', () => {
-              const resString = Buffer.concat(body).toString()
+            tokenResponse.on('data', (chunk) => {
+              console.log("Receiving token respose... ",chunk)
+              body.push(chunk);
+            });
+            tokenResponse.on('end', () => {              
+              console.log("Received token respose")
+              const resString = Buffer.concat(body).toString();         
+              console.log("Token respose is ",resString)
               resolve(resString)
             })
           });
@@ -203,6 +208,7 @@ exports.execute = async (req, res) => {
           });
 
         }).catch(err => {
+          console.log("Error while gettin access token ",err);
           res.status(500).send({
             status: 'Error while fetching access token',
           });
