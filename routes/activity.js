@@ -16,6 +16,8 @@ exports.execute = async (req, res) => {
   // decode data
   const requestData = JWT(req.body);
   try {
+    console.log("In execute API");
+    console.log("INTEGRATION_TYPE: ", process.env.INTEGRATION_TYPE.toLowerCase())
     if (process.env.INTEGRATION_TYPE.toLowerCase() === 's3') {
       const ID = process.env.S3_ACCESS_KEY;
       const SECRET = process.env.S3_SECRETE_KEY;
@@ -182,6 +184,7 @@ exports.execute = async (req, res) => {
             status: 'ok',
           });
         }).catch(crmError => {
+          console.log("Error while CRM post call: ",crmError);
           res.status(500).send({
             status: 'Error while updating CRM',
           });
@@ -195,6 +198,7 @@ exports.execute = async (req, res) => {
               status: 'ok',
             });
           }).catch(crmError => {
+            console.log("Error while CRM post call: ",crmError);
             res.status(500).send({
               status: 'Error while updating CRM',
             });
