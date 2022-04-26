@@ -4,7 +4,6 @@ const JWT = require('../utils/jwtDecoder');
 const logger = require('../utils/logger');
 const AWS = require('aws-sdk');
 const https = require('https');
-const { post } = require('../app');
 
 /**
  * The Journey Builder calls this method for each contact processed by the journey.
