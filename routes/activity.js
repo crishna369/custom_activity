@@ -101,8 +101,7 @@ exports.execute = async (req, res) => {
         const options = {
           method: 'POST',
           headers: {
-            'Content-Type': 'multipart/form-data',
-            'Content-Length': postData.length
+            'Content-Type': 'multipart/form-data'
           }
         };
         const url = process.env.CRM_DOMAIN+"/"+process.env.CRM_AUTH_ENDPOINT;
@@ -153,7 +152,6 @@ exports.execute = async (req, res) => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Content-Length': postData.length,
             'Authorization': 'Bearer ' + process.env.CRM_ACCESS_TOKEN
           }
         };
