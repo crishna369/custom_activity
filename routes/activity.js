@@ -108,7 +108,7 @@ exports.execute = async (req, res) => {
         return new Promise((resolve, reject) => {
           const req = https.request(url, options, (tokenResponse) => {
             if (tokenResponse.statusCode < 200 || tokenResponse.statusCode > 299) {
-              console.log("Token call failed with: ", tokenResponse.statusCode)
+              console.log("Token call failed with: ", tokenResponse)
               return reject(new Error("HTTP status code "+tokenResponse.statusCode))
             }
             console.log('statusCode:', tokenResponse.statusCode);
