@@ -165,7 +165,10 @@ exports.execute = async (req, res) => {
             console.log('headers:', res.headers);
 
             const body = []
-            res.on('data', (chunk) => body.push(chunk))
+            res.on('data', (chunk) => {
+              console.log("Received chunck: ",chunk);
+              body.push(chunk);
+            })
             res.on('end', () => {
               const resString = Buffer.concat(body).toString()
               resolve(resString)
