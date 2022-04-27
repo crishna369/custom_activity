@@ -97,12 +97,9 @@ exports.execute = async (req, res) => {
         postData.append("client_id", process.env.CRM_CLIENT_ID);
         postData.append("client_secret", process.env.CRM_CLIENT_SECRETE);
 
-        console.log("form data for token: ",postData)
         const options = {
           method: 'POST',
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
+          headers: postData.getHeaders()
         };
         const url = process.env.CRM_DOMAIN+"/"+process.env.CRM_AUTH_ENDPOINT;
         console.log("In getAccessToken function")
@@ -127,12 +124,13 @@ exports.execute = async (req, res) => {
               resolve(resString)
             })
           });
+          
+          postData.pipe(req);
 
           req.on('error', (err) => {
             console.log("Token call failed: ",err)
             reject(err)
           });
-          postData.pipe(req);
         });
       }
       const postCRM = function () {
