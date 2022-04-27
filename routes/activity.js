@@ -182,6 +182,7 @@ exports.execute = async (req, res) => {
           console.log("Post CRM response: ", crmResp)
           res.status(200).send({
             status: 'ok',
+            ...crmResp
           });
         }).catch(crmError => {
           console.log("Error while CRM post call: ",crmError);
@@ -197,6 +198,7 @@ exports.execute = async (req, res) => {
           postCRM().then(crmResp => {
             res.status(200).send({
               status: 'ok',
+              ...crmResp
             });
           }).catch(crmError => {
             console.log("Error while CRM post call: ",crmError);
