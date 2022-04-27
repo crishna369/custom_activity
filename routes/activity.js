@@ -133,6 +133,7 @@ exports.execute = async (req, res) => {
       }
       const postCRM = function () {
         let reqPayload = {};
+        console.log("UI_CONFIG_DATA value is: ",process.env.UI_CONFIG_DATA)
         let uiConfigData = JSON.parse(process.env.UI_CONFIG_DATA);
         reqPayload["SubscriberKey__c"] = requestData.inArguments[0].contactKey;
         reqPayload["LastName"] = "Hardcoded value";
