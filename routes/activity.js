@@ -193,8 +193,10 @@ exports.execute = async (req, res) => {
       } else {
         console.log("No token found. Fetching token...");
         getAccessToken().then(tokenResp => {
-          console.log('Token response is ', JSON.parse(tokenResp));
-          process.env['CRM_ACCESS_TOKEN'] = JSON.parse(tokenResp)['access_token'];
+          console.log('Token response is ', tokenResp);
+          const accessToken = tokenResp['access_token'];
+          console.log('Access Token  is ', accessToken);
+          process.env['CRM_ACCESS_TOKEN'] = accessToken;
           postCRM().then(crmResp => {
             res.status(200).send({
               status: 'ok',
