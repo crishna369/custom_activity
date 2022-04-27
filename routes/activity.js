@@ -4,7 +4,7 @@ const JWT = require('../utils/jwtDecoder');
 const logger = require('../utils/logger');
 const AWS = require('aws-sdk');
 const https = require('https');
-const querystring = require('querystring');
+const FormData = require("form-data");
 
 /**
  * The Journey Builder calls this method for each contact processed by the journey.
@@ -90,13 +90,13 @@ exports.execute = async (req, res) => {
     }
     else if (process.env.INTEGRATION_TYPE.toLowerCase() === 'crm') {
       const getAccessToken = function () {
-        const postData = new URLSearchParams({
-          "username": process.env.CRM_USERNAME,
-          "password": process.env.CRM_PASSWORD,
-          "grant_type": "password",
-          "client_id": process.env.CRM_CLIENT_ID,
-          "client_secret": process.env.CRM_CLIENT_SECRETE
-        });
+        const postData = new FormData();
+        postData.append("username", process.env.CRM_USERNAME);
+        postData.append("password", process.env.CRM_PASSWORD);
+        postData.append("grant_type", "password");
+        postData.append("client_id", process.env.CRM_CLIENT_ID);
+        postData.append("client_secret", process.env.CRM_CLIENT_SECRETE);
+
         console.log("form data for token: ",postData)
         const options = {
           method: 'POST',
@@ -132,9 +132,7 @@ exports.execute = async (req, res) => {
             console.log("Token call failed: ",err)
             reject(err)
           });
-
-          req.write(postData)
-          req.end()
+          postData.pipe(req);
         });
       }
       const postCRM = function () {
@@ -166,7 +164,6 @@ exports.execute = async (req, res) => {
 
             const body = []
             res.on('data', (chunk) => {
-              console.log("Received chunck: ",chunk);
               body.push(chunk);
             })
             res.on('end', () => {
