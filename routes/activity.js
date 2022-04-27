@@ -140,7 +140,6 @@ exports.execute = async (req, res) => {
         for (let i = 0; i < uiConfigData.length; i++) {
           reqPayload[uiConfigData[i].id] = requestData.inArguments[0][uiConfigData[i].id];
         }
-        console.log("Request payload for post is ",reqPayload)
         const postData = JSON.stringify(reqPayload);
 
         const options = {
@@ -156,8 +155,6 @@ exports.execute = async (req, res) => {
             if (res.statusCode < 200 || res.statusCode > 299) {
               return reject(new Error(`HTTP status code ${res.statusCode}`))
             }
-            console.log('statusCode:', res.statusCode);
-            console.log('headers:', res.headers);
 
             const body = []
             res.on('data', (chunk) => {
