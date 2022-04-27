@@ -193,12 +193,10 @@ exports.execute = async (req, res) => {
       } else {
         console.log("No token found. Fetching token...");
         getAccessToken().then(tokenResp => {
-          console.log("Type of token reposen is: ", typeof tokenResp)
           const tokenRespJson = JSON.parse(tokenResp)
-          console.log('Token response is ', tokenRespJson);
           const accessToken = tokenRespJson['access_token'];
-          console.log('Access Token  is ', accessToken);
           process.env['CRM_ACCESS_TOKEN'] = accessToken;
+          console.log("Env variable for access token is: ", rocess.env.CRM_ACCESS_TOKEN)
           postCRM().then(crmResp => {
             res.status(200).send({
               status: 'ok',
