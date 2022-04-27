@@ -142,7 +142,7 @@ exports.execute = async (req, res) => {
           reqPayload[uiConfigData[i].id] = requestData.inArguments[0][uiConfigData[i].id];
         }
         console.log("Request payload for post is ",reqPayload)
-        const postData = new URLSearchParams(reqPayload);
+        const postData = JSON.stringify(reqPayload);
 
         const options = {
           method: 'POST',
