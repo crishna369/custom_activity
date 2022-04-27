@@ -114,13 +114,11 @@ exports.execute = async (req, res) => {
 
             const body = []
             tokenResponse.on('data', (chunk) => {
-              console.log("Receiving token respose... ",chunk)
               body.push(chunk);
             });
             tokenResponse.on('end', () => {              
               console.log("Received token respose")
-              const resString = Buffer.concat(body).toString();         
-              console.log("Token respose is ",resString)
+              const resString = Buffer.concat(body).toString();  
               resolve(resString)
             })
           });
@@ -196,7 +194,7 @@ exports.execute = async (req, res) => {
           const tokenRespJson = JSON.parse(tokenResp)
           const accessToken = tokenRespJson['access_token'];
           process.env['CRM_ACCESS_TOKEN'] = accessToken;
-          console.log("Env variable for access token is: ", rocess.env.CRM_ACCESS_TOKEN)
+          console.log("Env variable for access token is: ", process.env.CRM_ACCESS_TOKEN)
           postCRM().then(crmResp => {
             res.status(200).send({
               status: 'ok',
