@@ -97,8 +97,6 @@ exports.execute = async (req, res) => {
     console.log("In execute API");
     console.log("INTEGRATION_TYPE: ", process.env.INTEGRATION_TYPE.toLowerCase())
     if (process.env.INTEGRATION_TYPE.toLowerCase() === 's3') {
-      console.log("UI config data is: ", process.env.UI_CONFIG_DATA)
-      if (process.env.UI_CONFIG_DATA) {
         console.log("UI config data is available");
         let uiConfigData = JSON.parse(process.env.UI_CONFIG_DATA);
         console.log("UI config data is: ", uiConfigData);
@@ -107,13 +105,17 @@ exports.execute = async (req, res) => {
         let newContent = "\r\n" +
           "id: " + id + "\r\n";
         newContent += "SubscriberKey: " + requestData.inArguments[0].contactKey + "\r\n";
-        for (let i = 0; i < uiConfigData.length; i++) {
-          newContent += "" + uiConfigData[i].name + ": " + requestData.inArguments[0][uiConfigData[i].id] + "\r\n";
+        for(key in requestData.inArguments[0]){
+          if(key !== 'contactKey'){
+            newContent += "" + key +" : "+requestData.inArguments[0][key]+ "\r\n";
+          }
         }
+        // for (let i = 0; i < uiConfigData.length; i++) {
+        //   newContent += "" + uiConfigData[i].name + ": " + requestData.inArguments[0][uiConfigData[i].id] + "\r\n";
+        // }
         console.log("new content is "+newContent)
         queue1.push(newContent);
         startTimer();
-      }
 
       res.status(200).send({
         status: 'ok',
