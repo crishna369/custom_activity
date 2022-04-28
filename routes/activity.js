@@ -97,10 +97,10 @@ exports.execute = async (req, res) => {
     console.log("In execute API");
     console.log("INTEGRATION_TYPE: ", process.env.INTEGRATION_TYPE.toLowerCase())
     if (process.env.INTEGRATION_TYPE.toLowerCase() === 's3') {
-      
-
       if (process.env.UI_CONFIG_DATA) {
+        console.log("UI config data is available");
         let uiConfigData = JSON.parse(process.env.UI_CONFIG_DATA);
+        console.log("UI config data is: ", uiConfigData);
         let newContent = "\r\n" +
           "id: " + id + "\r\n";
         newContent += "SubscriberKey: " + requestData.inArguments[0].contactKey + "\r\n";
