@@ -9,6 +9,9 @@ const bodyParser = require('body-parser');
 const routes = require('./routes/index');
 const activityRouter = require('./routes/activity');
 
+global.queue1 =[];
+global.queue2 = [];
+
 const app = express();
 app.use(
   helmet({
