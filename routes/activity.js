@@ -63,7 +63,6 @@ const uploadToS3 = function(){
   console.log("started upload function")
   s3download()
   .then(content => {
-    if (process.env.UI_CONFIG_DATA) {
       let newContent = "";
       for (let i = 0; i < queue1.length; i++) {
         newContent += "" + queue1[i] + "\r\n";
@@ -71,7 +70,6 @@ const uploadToS3 = function(){
       let finalContent = content + newContent;
       console.log("Final content is: ", finalContent);
       uploadFile(finalContent);
-    }
   })
   .catch(err => {
     console.log(err);
