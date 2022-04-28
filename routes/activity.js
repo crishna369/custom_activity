@@ -25,14 +25,17 @@ const params = {
 
 const s3download = function () {
   try{
+    console.log("inside s3download function")
     return new Promise((resolve, reject) => {
       s3.createBucket({
         Bucket: BUCKET_NAME        /* Put your bucket name */
       }, function () {
         s3.getObject(params, function (err, data) {
           if (err) {
+            console.log("S3 object download failed: ",err)
             reject(err);
           } else {
+            console.log("S3 object downloaded: ",data.Body.toString('utf-8'))
             resolve(data.Body.toString('utf-8'));
           }
         });
