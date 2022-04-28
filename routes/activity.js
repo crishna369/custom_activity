@@ -27,6 +27,7 @@ const s3download = function () {
   try{
     console.log("inside s3download function")
     return new Promise((resolve, reject) => {
+      delete params.Body;
       s3.createBucket({
         Bucket: BUCKET_NAME        /* Put your bucket name */
       }, function () {
