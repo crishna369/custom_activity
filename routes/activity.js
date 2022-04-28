@@ -24,19 +24,24 @@ const params = {
 };
 
 const s3download = function () {
-  return new Promise((resolve, reject) => {
-    s3.createBucket({
-      Bucket: BUCKET_NAME        /* Put your bucket name */
-    }, function () {
-      s3.getObject(params, function (err, data) {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(data.Body.toString('utf-8'));
-        }
+  try{
+    return new Promise((resolve, reject) => {
+      s3.createBucket({
+        Bucket: BUCKET_NAME        /* Put your bucket name */
+      }, function () {
+        s3.getObject(params, function (err, data) {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(data.Body.toString('utf-8'));
+          }
+        });
       });
     });
-  });
+  }catch (error) {
+    console.log("Error is: ",error)
+    logger.error(error);
+  }  
 }
 
 const uploadFile = async (data) => {
@@ -52,6 +57,7 @@ const uploadFile = async (data) => {
 };
 
 const uploadToS3 = function(){  
+  console.log("started upload function")
   s3download()
   .then(content => {
     if (process.env.UI_CONFIG_DATA) {
@@ -60,6 +66,7 @@ const uploadToS3 = function(){
         newContent += "" + queue1[i] + "\r\n";
       }
       let finalContent = content + newContent;
+      console.log("Final content is: ", finalContent);
       uploadFile(finalContent);
     }
   })
