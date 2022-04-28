@@ -102,6 +102,7 @@ exports.execute = async (req, res) => {
         console.log("UI config data is available");
         let uiConfigData = JSON.parse(process.env.UI_CONFIG_DATA);
         console.log("UI config data is: ", uiConfigData);
+        const id = Uuidv1();
         let newContent = "\r\n" +
           "id: " + id + "\r\n";
         newContent += "SubscriberKey: " + requestData.inArguments[0].contactKey + "\r\n";
