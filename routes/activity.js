@@ -56,8 +56,8 @@ const uploadToS3 = function(){
   .then(content => {
     if (process.env.UI_CONFIG_DATA) {
       let newContent = "";
-      for (let i = 0; i < global.queue.length; i++) {
-        newContent += "" + global.queue[i] + "\r\n";
+      for (let i = 0; i < queue.length; i++) {
+        newContent += "" + queue[i] + "\r\n";
       }
       let finalContent = content + newContent;
       uploadFile(finalContent);
@@ -71,15 +71,15 @@ const uploadToS3 = function(){
 
 const startTimer = function(){
   console.log("Starting timer");
-  global.timer = setTimeout(() => {
+  timer = setTimeout(() => {
     uploadToS3();
   }, 5000);
 }
 
 const stopTimer = function(){
   console.log("Stopiing timer");
-  if(global.timer){
-    clearTimeout(global.timer)
+  if(timer){
+    clearTimeout(timer)
   }
 }
 /**
@@ -102,6 +102,7 @@ exports.execute = async (req, res) => {
         console.log("UI config data is available");
         let uiConfigData = JSON.parse(process.env.UI_CONFIG_DATA);
         console.log("UI config data is: ", uiConfigData);
+        console.log("request payload data is: ", requestData.inArguments[0]);
         const id = Uuidv1();
         let newContent = "\r\n" +
           "id: " + id + "\r\n";
