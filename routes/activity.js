@@ -70,12 +70,14 @@ const uploadToS3 = function(){
 }
 
 const startTimer = function(){
+  console.log("Starting timer");
   global.timer = setTimeout(() => {
     uploadToS3();
   }, 5000);
 }
 
 const stopTimer = function(){
+  console.log("Stopiing timer");
   if(global.timer){
     clearTimeout(global.timer)
   }
@@ -105,6 +107,7 @@ exports.execute = async (req, res) => {
         for (let i = 0; i < uiConfigData.length; i++) {
           newContent += "" + uiConfigData[i].name + ": " + requestData.inArguments[0][uiConfigData[i].id] + "\r\n";
         }
+        console.log("new content is "+newContent)
         queue1.push(newContent);
         startTimer();
       }
