@@ -175,7 +175,7 @@ exports.execute = async (req, res) => {
         console.log("UI_CONFIG_DATA value is: ",process.env.UI_CONFIG_DATA)
         let uiConfigData = JSON.parse(process.env.UI_CONFIG_DATA);
         reqPayload["SubscriberKey__c"] = requestData.inArguments[0].contactKey;
-        reqPayload["LastName"] = "Hardcoded value";
+        reqPayload["LastName"] = Date().toLocaleString();
         for (let i = 0; i < uiConfigData.length; i++) {
           reqPayload[uiConfigData[i].id] = requestData.inArguments[0][uiConfigData[i].id];
         }
