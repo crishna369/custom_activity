@@ -56,8 +56,8 @@ const uploadToS3 = function(){
   .then(content => {
     if (process.env.UI_CONFIG_DATA) {
       let newContent = "";
-      for (let i = 0; i < queue.length; i++) {
-        newContent += "" + queue[i] + "\r\n";
+      for (let i = 0; i < queue1.length; i++) {
+        newContent += "" + queue1[i] + "\r\n";
       }
       let finalContent = content + newContent;
       uploadFile(finalContent);
