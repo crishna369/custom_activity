@@ -29,6 +29,7 @@ exports.ui = (req, res) => {
     let body = "";
 
     response.on("data", (chunk) => {
+      console.log('chunk is ',chunk);
         body += chunk;
     });
 
