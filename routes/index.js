@@ -35,6 +35,7 @@ exports.ui = (req, res) => {
 
     response.on("end", () => {
         try {
+          console.log('ui config is ',body);
             let uiConfig = JSON.parse(body);
             // do something with JSON
             process.env['UI_CONFIG_DATA'] = JSON.stringify(uiConfig);
